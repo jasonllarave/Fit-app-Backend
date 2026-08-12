@@ -1,0 +1,12 @@
+# Dependencias
+node_modules/
+
+# Credenciales
+.env
+
+# Archivos de Windows
+desktop.ini
+Thumbs.db
+
+# Logs
+*.log
