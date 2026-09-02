@@ -1,5 +1,6 @@
 const User = require('../models/Users');
 const jwt = require('jsonwebtoken');
+const Suscripcion = require('../models/Suscripcion');
 
 //generar token
 const generarToken = (usuario) => {
@@ -115,4 +116,61 @@ exports.login = async (req, res) => {
         });
     }
 
+};
+
+
+exports.registrarGym = async (req, res) => {
+    try {
+        const { nombreGym, direccion, telefonoGym, ciudadGym, emailContacto, nombres, apellidos, email, password, telefono, planSlug } = req.body;
+
+        if (!nombreGym || !direccion || !email || !password || !nombres) {
+
+            return res.status(400).json({ 
+                exitoso: false, 
+                mensaje: 'Nombre del gym, dirección, datos del admin y contraseña son obligatorios' });
+        }
+
+        const plan = await Plan.findOne({ slug: planSlug || 'starter', familia: 'gym' });
+
+        if (!plan) return res.status(400).json({
+             exitoso: false, 
+             mensaje: 'Plan no válido' });
+
+        const existeEmail = await User.findOne({ email: email.trim() });
+
+        if (existeEmail) return res.status(400).json({
+             exitoso: false, 
+             mensaje: 'El email ya está registrado' });
+
+        const gym = await Gym.create({
+
+            nombre: nombreGym, direccion, telefono: telefonoGym, ciudad: ciudadGym || 'no especificada',
+            emailContacto, plan: plan.slug, estado: 'trial', maxMiembros: plan.maxMiembros,
+            maxEntrenadores: plan.maxEntrenadores, adminId: null, activo: true
+        });
+
+        const admin = await User.create({
+            nombres, apellidos, email: email.trim(), password: password.trim(), telefono,
+            ciudad: ciudadGym, rol: 'admin', tipoUsuario: 'gym', gymId: gym._id
+        });
+
+        gym.adminId = admin._id;
+        await gym.save();
+
+        await Suscripcion.create({
+            gym: gym._id, plan: plan.slug, estado: 'trial', periodo: 'mensual',
+            monto: plan.precioMensualCOP, fechaFin: new Date(Date.now() + plan.trialDias * 24 * 60 * 60 * 1000)
+        });
+
+        const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET, { expiresIn: '30d' });
+
+        res.status(201).json({
+            exitoso: true, mensaje: 'Gimnasio registrado. Comienza tu prueba.', token,
+            usuario: { id: admin._id, nombre: admin.nombres, email: admin.email, rol: admin.rol, gymId: admin.gymId },
+            gym: { id: gym._id, nombre: gym.nombre, plan: gym.plan, estado: gym.estado }
+        });
+
+    } catch (error) {
+        res.status(500).json({ exitoso: false, mensaje: 'Error al registrar gimnasio', error: error.message });
+    }
 };

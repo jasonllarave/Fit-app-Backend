@@ -82,6 +82,103 @@ exports.traerRecompensas = async (req, res) => {
     }
 };
 
+// ACTUALIZAR RECOMPENSA (admin del gym / superadmin)
+// Sirve para editar datos y para activar/desactivar (activa)
+exports.actualizarRecompensa = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const datosActualizados = req.body;
+        const usuarioActual = req.usuario;
+
+        const recompensa = await Recompensa.findById(id);
+
+        if (!recompensa) {
+            return res.status(404).json({
+                exitoso: false,
+                mensaje: 'Recompensa no encontrada'
+            });
+        }
+
+        // Permiso: admin solo puede tocar recompensas de SU gym
+        const esAdminDelGym = usuarioActual.rol === 'admin' &&
+            recompensa.gymId &&
+            recompensa.gymId.toString() === usuarioActual.gymId?.toString();
+        const esSuperadmin = usuarioActual.rol === 'superadmin';
+
+        if (!esAdminDelGym && !esSuperadmin) {
+            return res.status(403).json({
+                exitoso: false,
+                mensaje: 'No tienes permiso para modificar esta recompensa'
+            });
+        }
+
+        const recompensaActualizada = await Recompensa.findByIdAndUpdate(
+            id,
+            datosActualizados,
+            { new: true, runValidators: true }
+        );
+
+        res.status(200).json({
+            exitoso: true,
+            mensaje: 'Recompensa actualizada',
+            datos: recompensaActualizada
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            exitoso: false,
+            mensaje: 'Error al actualizar recompensa',
+            error: error.message
+        });
+    }
+};
+
+
+// ELIMINAR RECOMPENSA (admin del gym / superadmin)
+exports.eliminarRecompensa = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const usuarioActual = req.usuario;
+
+        const recompensa = await Recompensa.findById(id);
+
+        if (!recompensa) {
+            return res.status(404).json({
+                exitoso: false,
+                mensaje: 'Recompensa no encontrada'
+            });
+        }
+
+        // Permiso: admin solo puede eliminar recompensas de SU gym
+        const esAdminDelGym = usuarioActual.rol === 'admin' &&
+            recompensa.gymId &&
+            recompensa.gymId.toString() === usuarioActual.gymId?.toString();
+        const esSuperadmin = usuarioActual.rol === 'superadmin';
+
+        if (!esAdminDelGym && !esSuperadmin) {
+            return res.status(403).json({
+                exitoso: false,
+                mensaje: 'No tienes permiso para eliminar esta recompensa'
+            });
+        }
+
+        await Recompensa.findByIdAndDelete(id);
+
+        res.status(200).json({
+            exitoso: true,
+            mensaje: 'Recompensa eliminada'
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            exitoso: false,
+            mensaje: 'Error al eliminar recompensa',
+            error: error.message
+        });
+    }
+};
+
+
 // GANAR PUNTOS (al completar sesión)
 exports.ganarPuntos = async (req, res) => {
     try {

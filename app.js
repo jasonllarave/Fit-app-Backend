@@ -10,6 +10,7 @@ const sesionRoutes = require('./routes/sesionRoutes');
 const progresoRoutes = require('./routes/progresoRoutes');
 const suscripcionRoutes = require('./routes/suscripcionRoutes');
 const recompensaRoutes = require('./routes/recompensaRoutes');
+const planRoutes = require('./routes/planRoutes');
 const cors = require('cors');
 
 
@@ -37,6 +38,7 @@ app.use('/api/sesiones', sesionRoutes);
 app.use('/api/progreso', progresoRoutes);
 app.use('/api/suscripciones', suscripcionRoutes);
 app.use('/api/recompensas', recompensaRoutes);
+app.use('/api/planes', planRoutes);
 
 
 

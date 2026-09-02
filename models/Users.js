@@ -76,6 +76,76 @@ const UserSchema = new mongoose.Schema({
         default: Date.now
     },
 
+        // Sistema de referidos
+    codigoReferido: {
+        type: String,
+        unique: true,
+        sparse: true,
+        index: true
+    },
+    referidoPor: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        default: null
+    },
+    puntosReferidos: {
+        type: Number,
+        default: 0
+    },
+    totalReferidos: {
+        type: Number,
+        default: 0
+    },
+    totalReferidosPagados: {
+        type: Number,
+        default: 0
+    },
+    
+    // Plan individual (para B2C)
+    planIndividual: {
+        type: String,
+        enum: ['free', 'pro', 'coach'],
+        default: 'free'
+    },
+    estadoPlanIndividual: {
+        type: String,
+        enum: ['trial', 'activo', 'vencido', 'cancelado'],
+        default: 'trial'
+    },
+    fechaInicioPlan: {
+        type: Date
+    },
+    fechaFinPlan: {
+        type: Date
+    },
+    
+    // Configuración personal
+    diaDescanso: {
+        type: String,
+        enum: ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'ninguno'],
+        default: 'domingo'
+    },
+    
+    // Racha actual
+    rachaActual: {
+        type: Number,
+        default: 0
+    },
+    ultimoEntrenamiento: {
+        type: Date
+    },
+    
+    // Puntos totales (recompensas + referidos)
+    puntos: {
+        saldo: { type: Number, default: 0 },
+        historial: [{
+            concepto: String,
+            cantidad: Number,
+            tipo: { type: String, enum: ['ganado', 'gastado'] },
+            fecha: { type: Date, default: Date.now }
+        }]
+    }
+
     
 
 }, {timestamps: true});
