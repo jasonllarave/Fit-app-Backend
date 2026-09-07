@@ -60,10 +60,7 @@ const UserSchema = new mongoose.Schema({
     gymId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Gym',
-        default: null,
-        required: function() {
-            return this.tipoUsuario === 'gym';  // ← Solo obligatorio si es tipo gym
-        }
+        default: null
     },   
 
     suscripcionActiva: {

@@ -34,8 +34,13 @@ const GymSchema = new mongoose.Schema({
 
     plan: {
         type: String,
-        enum: ['inicial', 'crecimiento', 'profesional'],
-        default: 'inicial'
+        default: 'starter'
+    },
+
+    adminId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        default: null
     },
 
      recompensasActivas: {           

@@ -12,7 +12,7 @@ const {
 } = require('../controllers/gymController');
 
 router.post('/', proteger, crearGimnasio);
-router.get('/', proteger, traerGimnasios);
+router.get('/', traerGimnasios); // público para registro cliente_gym
 router.get('/:id', proteger, traerGimnasioId);
 router.put('/:id', proteger, actualizarGimnasio);
 router.delete('/:id', proteger, eliminarGimnasio); //soft (Cambia activo: false)

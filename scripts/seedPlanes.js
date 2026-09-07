@@ -14,9 +14,9 @@ const planes = [
         maxRutinas: 10,
         maxClientes: 0,
         features: [
-            '10_rutinas',
-            'ejercicios_basicos',
-            'progreso_basico'
+            '10 rutinas',
+            'ejercicios basicos',
+            'progreso basico'
         ],
         recompensasPropias: false,
         analyticsAvanzado: false,
@@ -34,12 +34,12 @@ const planes = [
         maxRutinas: 1500,
         maxClientes: 0,
         features: [
-            'rutinas_ilimitadas',
-            'historial_completo',
-            'recompensas_racha',
-            'analytics_basico',
-            'dia_descanso_configurable',
-            'sistema_referidos'
+            'rutinas ilimitadas',
+            'historial completo',
+            'recompensas racha',
+            'analytics basico',
+            'dia descanso configurable',
+            'sistema referidos'
         ],
         recompensasPropias: false,
         analyticsAvanzado: false,
@@ -57,12 +57,12 @@ const planes = [
         maxRutinas: 1500,
         maxClientes: 20,
         features: [
-            'todo_pro',
-            'gestion_clientes',
-            'rutinas_para_clientes',
-            'seguimiento_clientes',
-            'marca_personal',
-            'reportes_clientes'
+            'todo pro',
+            'gestion clientes',
+            'rutinas para clientes',
+            'seguimiento clientes',
+            'marca personal',
+            'reportes clientes'
         ],
         recompensasPropias: false,
         analyticsAvanzado: true,
@@ -83,11 +83,11 @@ const planes = [
         maxMiembros: 40,
         maxEntrenadores: 3,
         features: [
-            '40_miembros',
-            '1_admin',
-            'recompensas_gym',
-            'soporte_email',
-            'app_miembros'
+            '40 miembros',
+            '1 admin',
+            'recompensas gym',
+            'soporte email',
+            'app miembros'
         ],
         recompensasPropias: true,
         analyticsAvanzado: false,
@@ -106,12 +106,12 @@ const planes = [
         maxMiembros: 110,
         maxEntrenadores: 6,
         features: [
-            '110_miembros',
-            '3_entrenadores',
-            'recompensas_avanzadas',
-            'analytics_retencion',
-            'invitaciones_email',
-            'soporte_chat'
+            '110 miembros',
+            '3 entrenadores',
+            'recompensas avanzadas',
+            'analytics retencion',
+            'invitaciones email',
+            'soporte chat'
         ],
         recompensasPropias: true,
         analyticsAvanzado: true,
@@ -130,13 +130,13 @@ const planes = [
         maxMiembros: 999999,
         maxEntrenadores: 999,
         features: [
-            'miembros_ilimitados',
-            'entrenadores_ilimitados',
+            'miembros ilimitados',
+            'entrenadores ilimitados',
             'multisede',
-            'api_acceso',
-            'white_label',
-            'soporte_prioritario',
-            'onboarding_personalizado'
+            'api acceso',
+            'white label',
+            'soporte prioritario',
+            'onboarding personalizado'
         ],
         recompensasPropias: true,
         analyticsAvanzado: true,
